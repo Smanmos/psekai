@@ -414,12 +414,10 @@ def get_score_meta(notes, level, fever = False):
                         prev = MapElement('dummy', bar, beat)
         if skill_active:
             skill_time += (note.time() - prev.time()) * Fraction(240) / bpm
-            #print(skill_time)
             if skill_time > SKILL_DURATION:
                 skill_active = False
                 skillNo += 1
         if note.ctrl:
-            #print(note)
             if note.type == 'fever':
                 if fever:
                     fever_end = notes[-1].time()
