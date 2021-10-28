@@ -219,12 +219,12 @@ def eighths_between(start, end):
 
 def count_notes(notes):
     count = 0
-    longstarts = [None] * 2
+    longstarts = [None] * 3
     prev = None
     for note in notes:
         if note.ctrl:
             continue
-        for i in range(2):
+        for i in range(3):
             if longstarts[i] is not None:
                 mids = num_eighths_between(prev.bar + prev.beat, note.bar + note.beat)
                 if 8 % prev.beat.denominator == 0 and prev.bar + prev.beat != longstarts[i] and prev.bar + prev.beat != note.bar + note.beat:
@@ -242,12 +242,12 @@ def count_notes(notes):
 
 def get_total_weight(notes):
     weight = 0
-    longstarts = [None] * 2
+    longstarts = [None] * 3
     prev = None
     for note in notes:
         if note.ctrl:
             continue
-        for i in range(2):
+        for i in range(3):
             if longstarts[i] is not None:
                 mids = num_eighths_between(prev.bar + prev.beat, note.bar + note.beat)
                 if 8 % prev.beat.denominator == 0 and prev.bar + prev.beat != longstarts[i] and prev.bar + prev.beat != note.bar + note.beat:
@@ -282,7 +282,7 @@ def process_notes(music_info, music_score):
         pass
 
     notes = []
-    longcrits = [None] * 2
+    longcrits = [None] * 3
     for note in raw_notes:
         if len(notes) > 0 and note.type != 0 and not notes[-1].ctrl and notes[-1].time() == note.bar + note.beat and notes[-1].left == note.lane:
             if note.type == 5:
@@ -355,7 +355,7 @@ def get_score_meta(notes, level, fever = False):
     combo = 0
     base = 0
     skill_uptime = [0] * 6
-    longstarts = [None] * 2
+    longstarts = [None] * 3
     skillNo = 0
     skill_time = 0
     skill_active = False
@@ -367,7 +367,7 @@ def get_score_meta(notes, level, fever = False):
     for note in notes:
         if prev is not None:
             if 8 % prev.beat.denominator == 0 and prev.time() != note.time():
-                for i in range(0, 2):
+                for i in range(0, 3):
                     if longstarts[i] is not None and prev.time() != longstarts[i]:
                         note_score = MIDPOINT_WEIGHT * get_combo_multiplier(combo)
                         if prev.time() <= fever_end:
@@ -387,7 +387,7 @@ def get_score_meta(notes, level, fever = False):
                         base += note_score
                         combo += 1
             for bar, beat in eighths_between(prev.time(), note.time()):
-                for i in range(0, 2):
+                for i in range(0, 3):
                     if longstarts[i] is not None:
                         note_score = MIDPOINT_WEIGHT * get_combo_multiplier(combo)
                         if bar + beat <= fever_end:
